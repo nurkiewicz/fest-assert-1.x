@@ -14,11 +14,16 @@
  */
 package org.fest.assertions;
 
-import static org.fest.assertions.Collections.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.fest.assertions.Collections.found;
+import static org.fest.assertions.Collections.notFound;
 import static org.fest.assertions.Formatting.format;
 import static org.fest.util.Collections.duplicatesFrom;
-
-import java.util.*;
 
 /**
  * Template for assertions for groups of items (e.g. collections or arrays.)
