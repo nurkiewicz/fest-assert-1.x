@@ -2,3 +2,6 @@
 /.classpath
 /clover.license
 /.project
+/.idea
+/.settings
+*.iml
