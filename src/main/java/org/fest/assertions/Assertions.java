@@ -358,6 +358,10 @@ public class Assertions {
     return new StringAssert(actual);
   }
 
+  public static DateAssert assertThat(Date actual) {
+    return new DateAssert(actual);
+  }
+
   /**
    * Returns the given assertion. This method improves code readability by surrounding the given assertion with "<code>assertThat</code>".
    * <p>
