@@ -43,7 +43,12 @@ public final class ComparisonFailureFactory {
    */
   public static AssertionError comparisonFailure(String message, Object expected, Object actual) {
     try {
-      return newComparisonFailure(clean(message), expected, actual);
+      final String expectedStr = asString(expected);
+      final String actualStr = asString(actual);
+      if(expectedStr.equals(actualStr))
+        return newComparisonFailure(clean(message), expectedStr + asVerboseString(expected), actualStr + asVerboseString(actual));
+      else
+        return newComparisonFailure(clean(message), expectedStr, actualStr);
     } catch (Exception e) {
       return null;
     }
@@ -53,10 +58,10 @@ public final class ComparisonFailureFactory {
     return message == null ? "" : message;
   }
 
-  private static AssertionError newComparisonFailure(String message, Object expected, Object actual) throws Exception {
+  private static AssertionError newComparisonFailure(String message, String expected, String actual) throws Exception {
     String className = "org.junit.ComparisonFailure";
     Class<?>[] parameterTypes = new Class<?>[] { String.class, String.class, String.class };
-    Object[] parameterValues = new Object[] { format(message), asString(expected), asString(actual) };
+    Object[] parameterValues = new Object[] { format(message), expected, actual };
     Object o = constructorInvoker.newInstance(className, parameterTypes, parameterValues);
     if (o instanceof AssertionError) return (AssertionError)o;
     return null;
@@ -66,6 +71,10 @@ public final class ComparisonFailureFactory {
     if (o instanceof String) return quote((String)o);
     if (o == null) return null;
     return toStringOf(o);
+  }
+
+  private static String asVerboseString(Object obj) {
+    return " (" + obj.getClass().getName() + "@" + Integer.toHexString(obj.hashCode()) + ")";
   }
 
   private static String format(String message) {
