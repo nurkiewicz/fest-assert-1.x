@@ -15,7 +15,10 @@
  */
 package org.fest.assertions;
 
-import static org.fest.util.Strings.*;
+import org.fest.util.Objects;
+
+import static org.fest.util.Strings.isEmpty;
+import static org.fest.util.Strings.quote;
 import static org.fest.util.ToString.toStringOf;
 
 /**
@@ -45,7 +48,7 @@ public final class ComparisonFailureFactory {
     try {
       final String expectedStr = asString(expected);
       final String actualStr = asString(actual);
-      if(expectedStr.equals(actualStr))
+      if(Objects.areEqual(expectedStr, actualStr))
         return newComparisonFailure(clean(message), expectedStr + asVerboseString(expected), actualStr + asVerboseString(actual));
       else
         return newComparisonFailure(clean(message), expectedStr, actualStr);
@@ -74,7 +77,7 @@ public final class ComparisonFailureFactory {
   }
 
   private static String asVerboseString(Object obj) {
-    return " (" + obj.getClass().getName() + "@" + Integer.toHexString(obj.hashCode()) + ")";
+    return " (" + obj.getClass().getSimpleName() + "@" + Integer.toHexString(obj.hashCode()) + ")";
   }
 
   private static String format(String message) {
