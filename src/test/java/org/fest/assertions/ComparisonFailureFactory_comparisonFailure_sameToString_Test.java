@@ -91,6 +91,45 @@ public class ComparisonFailureFactory_comparisonFailure_sameToString_Test {
     assertEquals("[message] expected:<42> but was:<null>", failure.getMessage());
   }
 
+  @Test
+  public void should_return_verbose_message_when_enum_type_value_name_same_but_different_enum() throws Exception {
+    //given
+    final Object expected = TypeA.YES;
+    final Object actual = TypeB.YES;
+
+    //when
+    final ComparisonFailure failure = (ComparisonFailure) ComparisonFailureFactory.comparisonFailure("message", expected, actual);
+
+    //then
+    assertTrue(failure.getMessage().matches("\\[message\\] expected:<YES \\(Type\\[A@.*\\)> but was:<YES \\(Type\\[B@.*\\)>"));
+  }
+
+  @Test
+  public void should_return_simple_message_when_enum_type_value_names_different_in_same_enum() throws Exception {
+    //given
+    final Object expected = TypeA.YES;
+    final Object actual = TypeA.NO;
+
+    //when
+    final ComparisonFailure failure = (ComparisonFailure) ComparisonFailureFactory.comparisonFailure("message", expected, actual);
+
+    //then
+    assertEquals("[message] expected:<[YES]> but was:<[NO]>", failure.getMessage());
+  }
+
+  @Test
+  public void should_return_simple_message_when_enum_type_value_names_different_in_different_enum() throws Exception {
+    //given
+    final Object expected = TypeA.YES;
+    final Object actual = TypeA.NO;
+
+    //when
+    final ComparisonFailure failure = (ComparisonFailure) ComparisonFailureFactory.comparisonFailure("message", expected, actual);
+
+    //then
+    assertEquals("[message] expected:<[YES]> but was:<[NO]>", failure.getMessage());
+  }
+
   private static class Person {
     private final String name;
     private final int age;
@@ -105,4 +144,7 @@ public class ComparisonFailureFactory_comparisonFailure_sameToString_Test {
       return concat("Person[name=", name, "]");
     }
   }
+
+  private static enum TypeA {YES, NO}
+  private static enum TypeB {YES, NO}
 }
