@@ -358,8 +358,12 @@ public class Assertions {
     return new StringAssert(actual);
   }
 
-  public static DateAssert assertThat(Date actual) {
-    return new DateAssert(actual);
+  public static CalendarAssert assertThat(Calendar actual) {
+    return new CalendarAssert(actual);
+  }
+
+  public static CalendarAssert assertThat(Date actual) {
+    return new CalendarAssert(actual);
   }
 
   /**
